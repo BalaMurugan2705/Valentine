@@ -5,18 +5,11 @@ interface CinematicSectionProps {
   children: React.ReactNode
   className?: string
   delay?: number
-  /** 'up' | 'left' | 'right' | 'scale' — direction the element enters from */
   direction?: 'up' | 'left' | 'right' | 'scale'
 }
 
-const EASE = [0.25, 0.46, 0.45, 0.94]
+const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
-/**
- * Cinematic scroll reveal wrapper.
- * - Enters with fade + directional slide + slight blur clear
- * - Scroll-linked parallax gives subtle depth while scrolling past
- * - Supports multiple entry directions for visual variety
- */
 export default function CinematicSection({
   children,
   className = '',
@@ -26,31 +19,23 @@ export default function CinematicSection({
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-12% 0px -12% 0px' })
 
-  // Scroll-linked parallax — subtle depth as user scrolls past
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
   })
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [15, -15])
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [10, -10])
 
-  // Entry animation config based on direction
+  // GPU-friendly: only opacity + transform, NO filter blur
   const initial = {
     opacity: 0,
-    filter: 'blur(6px)',
-    ...(direction === 'up' && { y: 70 }),
-    ...(direction === 'left' && { x: -80 }),
-    ...(direction === 'right' && { x: 80 }),
-    ...(direction === 'scale' && { scale: 0.85, y: 30 }),
+    ...(direction === 'up' && { y: 50 }),
+    ...(direction === 'left' && { x: -50 }),
+    ...(direction === 'right' && { x: 50 }),
+    ...(direction === 'scale' && { scale: 0.9, y: 20 }),
   }
 
   const animate = isInView
-    ? {
-        opacity: 1,
-        filter: 'blur(0px)',
-        y: 0,
-        x: 0,
-        scale: 1,
-      }
+    ? { opacity: 1, y: 0, x: 0, scale: 1 }
     : initial
 
   return (
@@ -58,12 +43,7 @@ export default function CinematicSection({
       ref={ref}
       initial={initial}
       animate={animate}
-      transition={{
-        duration: 1.4,
-        delay,
-        ease: EASE,
-        filter: { duration: 0.8 },
-      }}
+      transition={{ duration: 0.7, delay, ease: EASE }}
       style={{ y: parallaxY }}
       className={className}
     >

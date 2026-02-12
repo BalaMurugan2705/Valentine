@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import FloatingHearts from '../components/FloatingHearts'
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
@@ -37,6 +38,7 @@ export default function PromisesScene() {
       className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 relative overflow-hidden"
       style={{ background: 'radial-gradient(ellipse at center, #0f1520 0%, #0D1B2A 70%)' }}
     >
+      <FloatingHearts count={10} />
       {/* Ambient glows */}
       <motion.div
         className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-romantic-gold/6 blur-[140px]"
@@ -76,10 +78,10 @@ export default function PromisesScene() {
             <motion.div
               key={i}
               className="glass-strong rounded-2xl p-5 md:p-6 flex items-start gap-4"
-              initial={{ opacity: 0, y: 40, scale: 0.95, filter: 'blur(6px)' }}
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
               animate={
                 i < visibleCount
-                  ? { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }
+                  ? { opacity: 1, y: 0, scale: 1 }
                   : {}
               }
               transition={{ duration: 0.8, ease: EASE }}

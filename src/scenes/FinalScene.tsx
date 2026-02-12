@@ -1,5 +1,6 @@
 import { useRef, useMemo } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
+import FloatingHearts from '../components/FloatingHearts'
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
@@ -67,6 +68,7 @@ export default function FinalScene() {
       ref={ref}
       className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden"
     >
+      <FloatingHearts count={10} />
       {/* Celebration particles */}
       {isInView && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -166,8 +168,8 @@ export default function FinalScene() {
         {/* Heading */}
         <motion.h1
           className="font-playfair text-4xl md:text-6xl lg:text-8xl font-bold mb-6"
-          initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
-          animate={isInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1.5, delay: 0.5, ease: EASE }}
         >
           <span className="text-romantic-gradient-animated">12 Years</span>{' '}

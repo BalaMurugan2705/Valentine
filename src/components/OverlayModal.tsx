@@ -49,9 +49,9 @@ export default function OverlayModal({ isOpen, onClose, children }: OverlayModal
           {/* Content container */}
           <motion.div
             className="relative z-10 w-full h-full overflow-y-auto"
-            initial={{ scale: 0.85, opacity: 0, filter: 'blur(16px)' }}
-            animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
-            exit={{ scale: 0.9, opacity: 0, filter: 'blur(12px)' }}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
             transition={{ duration: 0.6, ease: EASE }}
           >
             {/* Close button */}

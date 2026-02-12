@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import FloatingHearts from '../components/FloatingHearts'
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
@@ -81,6 +82,7 @@ export default function MomentsScene() {
       className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-16 relative overflow-hidden"
       style={{ background: 'radial-gradient(ellipse at center, #1a0a14 0%, #0D1B2A 70%)' }}
     >
+      <FloatingHearts count={10} />
       {/* Ambient glow */}
       <motion.div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-romantic-pink/6 blur-[150px]"
@@ -108,9 +110,9 @@ export default function MomentsScene() {
             key={current}
             custom={direction}
             className={`glass-strong rounded-3xl p-8 md:p-10 text-center bg-gradient-to-br ${moment.bg}`}
-            initial={{ x: direction * 100, opacity: 0, scale: 0.9, rotateY: direction * 15, filter: 'blur(10px)' }}
-            animate={{ x: 0, opacity: 1, scale: 1, rotateY: 0, filter: 'blur(0px)' }}
-            exit={{ x: direction * -100, opacity: 0, scale: 0.9, rotateY: direction * -15, filter: 'blur(10px)' }}
+            initial={{ x: direction * 80, opacity: 0, scale: 0.95 }}
+            animate={{ x: 0, opacity: 1, scale: 1 }}
+            exit={{ x: direction * -80, opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.6, ease: EASE }}
             style={{ boxShadow: '0 30px 80px rgba(255,77,109,0.1), 0 10px 30px rgba(0,0,0,0.3)' }}
           >

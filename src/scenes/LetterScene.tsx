@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, useMemo } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import CinematicSection from '../components/CinematicSection'
+import FloatingHearts from '../components/FloatingHearts'
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
@@ -100,6 +101,7 @@ export default function LetterScene() {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 py-20 md:py-32 overflow-hidden"
     >
+      <FloatingHearts count={10} />
       {/* Ambient glows */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
@@ -163,10 +165,10 @@ export default function LetterScene() {
         <motion.div
           ref={cardRef}
           className="glass-strong rounded-2xl p-6 sm:p-8 md:p-12 relative overflow-hidden"
-          initial={{ opacity: 0, y: 100, rotateX: 15, filter: 'blur(8px)' }}
+          initial={{ opacity: 0, y: 60, rotateX: 10 }}
           animate={
             isInView
-              ? { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)' }
+              ? { opacity: 1, y: 0, rotateX: 0 }
               : {}
           }
           transition={{ duration: 1.5, ease: EASE }}
@@ -206,8 +208,7 @@ export default function LetterScene() {
                 style={{
                   opacity: index < visibleLines ? 1 : 0,
                   transform: index < visibleLines ? 'translateY(0) translateX(0)' : 'translateY(8px) translateX(-4px)',
-                  filter: index < visibleLines ? 'blur(0px)' : 'blur(2px)',
-                  transition: 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  transition: 'opacity 0.4s ease, transform 0.4s ease',
                 }}
               >
                 {line || '\u00A0'}

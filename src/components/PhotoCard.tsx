@@ -7,6 +7,7 @@ interface PhotoCardProps {
   caption?: string
   delay?: number
   className?: string
+  objectPosition?: string
 }
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
@@ -29,6 +30,7 @@ export default function PhotoCard({
   caption,
   delay = 0,
   className = '',
+  objectPosition = 'center',
 }: PhotoCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(cardRef, { once: true, margin: '-5% 0px' })
@@ -105,7 +107,7 @@ export default function PhotoCard({
             src={src}
             alt={alt}
             className="w-full h-52 sm:h-60 md:h-68 object-cover"
-            style={{ y: imageY }}
+            style={{ y: imageY, objectPosition }}
             whileHover={{ scale: 1.08 }}
             transition={{ duration: 1, ease: EASE }}
           />

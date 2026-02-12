@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import FloatingHearts from '../components/FloatingHearts'
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
@@ -43,6 +44,7 @@ export default function ReasonsScene() {
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 relative overflow-hidden"
       style={{ background: 'radial-gradient(ellipse at center, #1a0a14 0%, #0D1B2A 70%)' }}
     >
+      <FloatingHearts count={10} />
       {/* Ambient glow */}
       <motion.div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-romantic-pink/8 blur-[140px]"
@@ -86,8 +88,8 @@ export default function ReasonsScene() {
               <motion.div
                 key={i}
                 className="flex items-start gap-3 glass rounded-xl p-4"
-                initial={{ opacity: 0, x: -30, filter: 'blur(6px)' }}
-                animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, ease: EASE }}
                 style={{ boxShadow: '0 8px 24px rgba(255,77,109,0.06)' }}
               >

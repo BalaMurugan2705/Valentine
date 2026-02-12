@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import CinematicSection from '../components/CinematicSection'
+import FloatingHearts from '../components/FloatingHearts'
 
 /**
  * QUIZ SCENE — "How Well Do You Know Me?" Game
@@ -57,7 +58,7 @@ const questions: Question[] = [
   },
   {
     question: 'Where would I love to celebrate our next anniversary?',
-    options: ['Paris — the city of love', 'Maldives — just us and the ocean', 'Back to our school town — where it began', 'Anywhere, as long as it\'s with you'],
+    options: ['Japan — land of cherry blossoms', 'China — the Great Wall awaits', 'South Korea — K-drama romance',`Anywhere, as long as it\'s with you'`],
     correctIndex: 3,
   },
   {
@@ -128,6 +129,7 @@ export default function QuizScene() {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 py-20 md:py-32 overflow-hidden"
     >
+      <FloatingHearts count={10} />
       {/* Ambient background */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div

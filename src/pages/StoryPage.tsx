@@ -13,6 +13,7 @@ import FinalScene from '../scenes/FinalScene'
 import ReasonsScene from '../scenes/ReasonsScene'
 import PromisesScene from '../scenes/PromisesScene'
 import MomentsScene from '../scenes/MomentsScene'
+import VideoScene from '../scenes/VideoScene'
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
 
@@ -98,6 +99,15 @@ const gridItems: GridItem[] = [
     scene: LetterScene,
   },
   {
+    id: 'videos',
+    label: 'Our Reels',
+    subtitle: 'Love in motion',
+    type: 'gift',
+    emoji: '🎬',
+    color: 'from-violet-900/40 to-purple-900/30',
+    scene: VideoScene,
+  },
+  {
     id: 'forever',
     label: '12 Years & Forever',
     subtitle: 'My final surprise',
@@ -170,8 +180,8 @@ export default function StoryPage() {
           </motion.p>
           <motion.h1
             className="font-playfair text-3xl md:text-5xl font-semibold text-white mb-3"
-            initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4, ease: EASE }}
           >
             Open each{' '}
@@ -247,8 +257,8 @@ function GridCard({
         border: '1px solid rgba(255,255,255,0.08)',
         boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
       }}
-      initial={{ opacity: 0, y: 40, scale: 0.9, filter: 'blur(6px)' }}
-      animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+      initial={{ opacity: 0, y: 30, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.8, delay: 0.3 + index * 0.1, ease: EASE }}
       whileHover={{ scale: 1.05, y: -4, boxShadow: '0 20px 60px rgba(255,77,109,0.15)' }}
       whileTap={{ scale: 0.95 }}

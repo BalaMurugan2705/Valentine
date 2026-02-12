@@ -2,6 +2,7 @@ import { useRef, useMemo } from 'react'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import PhotoCard from '../components/PhotoCard'
 import CinematicSection from '../components/CinematicSection'
+import FloatingHearts from '../components/FloatingHearts'
 
 /**
  * SCENE 4 — FLOATING MEMORY CARDS (CINEMATIC VERSION)
@@ -19,40 +20,65 @@ import CinematicSection from '../components/CinematicSection'
 
 const memories = [
   {
-    src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&q=80',
-    alt: 'School days together',
-    caption: 'Where our story began — in school',
-    date: 'School Days',
+    src: '/photos/chennai-2019b.jpg',
+    alt: 'Chennai memories 2019',
+    caption: 'Our first Chennai chapter together',
+    date: '2019',
+    objectPosition: 'center 30%',
   },
   {
-    src: 'https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=600&q=80',
-    alt: 'Growing up together',
-    caption: 'Growing up, never growing apart',
-    date: 'College Years',
+    src: '/photos/together-2023b.jpg',
+    alt: 'Together again',
+    caption: 'Every moment with you is magic',
+    date: '2023',
   },
   {
-    src: 'https://images.unsplash.com/photo-1529519195486-b6a60e9e8406?w=600&q=80',
-    alt: 'Through the distance',
-    caption: 'Distance tested us, love won',
-    date: 'The Long Path',
+    src: '/photos/together-2023c.jpg',
+    alt: 'Making memories',
+    caption: 'Building our story, one smile at a time',
+    date: '2023',
   },
   {
-    src: 'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=600&q=80',
-    alt: 'The proposal',
-    caption: 'The day I asked forever',
-    date: 'The Proposal',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600&q=80',
-    alt: 'Our wedding day',
+    src: '/photos/wedding1.jpg',
+    alt: 'Wedding day',
     caption: 'Two hearts, one beautiful promise',
     date: 'Wedding Day',
   },
   {
-    src: 'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=600&q=80',
-    alt: 'Married life together',
+    src: '/photos/wedding2.jpg',
+    alt: 'The ceremony',
+    caption: 'The day our forever began',
+    date: 'The Ceremony',
+  },
+  {
+    src: '/photos/wedding3.jpg',
+    alt: 'Married life',
+    caption: 'Every day with you feels like a dream',
+    date: 'Married Life',
+  },
+  {
+    src: '/photos/after-marriage1.jpg',
+    alt: 'After marriage',
+    caption: 'A new chapter, same beautiful love',
+    date: 'New Beginnings',
+  },
+  {
+    src: '/photos/after-marriage2.jpg',
+    alt: 'Our new life',
+    caption: 'Walking through life hand in hand',
+    date: 'Our Journey',
+  },
+  {
+    src: '/photos/birthday.jpg',
+    alt: 'Your birthday',
+    caption: 'Celebrating you — my greatest gift',
+    date: 'Your Birthday',
+  },
+  {
+    src: '/photos/wedding4.jpg',
+    alt: 'Together forever',
     caption: '12 years and still counting',
-    date: 'Forever Begins',
+    date: 'Forever Ours',
   },
 ]
 
@@ -60,6 +86,7 @@ const memories = [
 const midQuotes = [
   'From school corridors to wedding aisles...',
   '12 years of memories, and every one is golden...',
+  'Every photo tells a story only our hearts know...',
 ]
 
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
@@ -95,12 +122,14 @@ export default function MemoriesScene() {
   // Heading words for staggered reveal
   const headingWords = '12 years of moments I treasure forever'.split(' ')
 
-  // Split memories into rows of 3 for mid-quote insertion
+  // Split memories into rows for mid-quote insertion
   const firstRow = memories.slice(0, 3)
   const secondRow = memories.slice(3, 6)
+  const thirdRow = memories.slice(6, 10)
 
   return (
     <section ref={sectionRef} className="relative py-24 md:py-40 px-4 sm:px-6 overflow-hidden">
+      <FloatingHearts count={10} />
       {/* ── AMBIENT BACKGROUND LAYER ── */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Primary glow orb — drifts with parallax */}
@@ -234,8 +263,24 @@ export default function MemoriesScene() {
         </div>
       </div>
 
-      {/* ── BOTTOM CINEMATIC QUOTE ── */}
+      {/* ── MID CINEMATIC QUOTE 2 ── */}
       <CinematicQuoteDivider quote={midQuotes[1]} />
+
+      {/* ── THIRD ROW OF CARDS ── */}
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+          {thirdRow.map((memory, index) => (
+            <MemoryCardWithLabel
+              key={index + 6}
+              memory={memory}
+              index={index + 6}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ── BOTTOM CINEMATIC QUOTE ── */}
+      <CinematicQuoteDivider quote={midQuotes[2]} />
 
       {/* ── BOTTOM DECORATIVE ELEMENTS ── */}
       <motion.div
@@ -280,10 +325,10 @@ function MemoryCardWithLabel({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 80, x: enterDirection, rotate: enterRotation, filter: 'blur(8px)' }}
+      initial={{ opacity: 0, y: 50, x: enterDirection, rotate: enterRotation }}
       animate={
         isInView
-          ? { opacity: 1, y: 0, x: 0, rotate: 0, filter: 'blur(0px)' }
+          ? { opacity: 1, y: 0, x: 0, rotate: 0 }
           : {}
       }
       transition={{ duration: 1.2, delay: (index % 3) * 0.2, ease: EASE }}
@@ -305,6 +350,7 @@ function MemoryCardWithLabel({
         alt={memory.alt}
         caption={memory.caption}
         delay={0} // Delay handled by parent wrapper
+        objectPosition={memory.objectPosition}
       />
     </motion.div>
   )
