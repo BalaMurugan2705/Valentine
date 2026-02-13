@@ -129,16 +129,16 @@ export default function QuizScene() {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 py-20 md:py-32 overflow-hidden"
     >
-      <FloatingHearts count={10} />
+      <FloatingHearts count={5} />
       {/* Ambient background */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-romantic-pink/8 blur-[120px]"
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-romantic-pink/8 blur-[60px]"
           animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-romantic-gold/6 blur-[100px]"
+          className="absolute bottom-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-romantic-gold/6 blur-[50px]"
           animate={{ scale: [1.1, 0.95, 1.1], opacity: [0.15, 0.3, 0.15] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
         />

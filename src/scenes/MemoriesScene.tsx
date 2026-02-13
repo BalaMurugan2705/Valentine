@@ -129,19 +129,19 @@ export default function MemoriesScene() {
 
   return (
     <section ref={sectionRef} className="relative py-24 md:py-40 px-4 sm:px-6 overflow-hidden">
-      <FloatingHearts count={10} />
+      <FloatingHearts count={5} />
       {/* ── AMBIENT BACKGROUND LAYER ── */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Primary glow orb — drifts with parallax */}
         <motion.div
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-romantic-pink/10 blur-[140px]"
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-romantic-pink/10 blur-[60px]"
           style={{ y: bgY }}
           animate={{ scale: [1, 1.25, 1], opacity: [0.25, 0.5, 0.25] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
         />
         {/* Secondary glow — offset timing for depth */}
         <motion.div
-          className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-romantic-gold/8 blur-[100px]"
+          className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-romantic-gold/8 blur-[50px]"
           animate={{ scale: [1.1, 0.9, 1.1], opacity: [0.15, 0.35, 0.15], x: [0, 30, 0] }}
           transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
         />

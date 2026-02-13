@@ -1,131 +1,109 @@
-import { useState, useMemo } from 'react'
+import { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import OverlayModal from '../components/OverlayModal'
 import FloatingHearts from '../components/FloatingHearts'
 import PageTransition from '../components/PageTransition'
 
-// Scenes
-import StoryScene from '../scenes/StoryScene'
-import MemoriesScene from '../scenes/MemoriesScene'
-import QuizScene from '../scenes/QuizScene'
-import LetterScene from '../scenes/LetterScene'
-import FinalScene from '../scenes/FinalScene'
-import ReasonsScene from '../scenes/ReasonsScene'
-import PromisesScene from '../scenes/PromisesScene'
-import MomentsScene from '../scenes/MomentsScene'
-import VideoScene from '../scenes/VideoScene'
-
 const EASE = [0.25, 0.46, 0.45, 0.94] as const
-
-/**
- * STORY PAGE — Grid of Roses & Gift Boxes
- *
- * Single page with a grid of 8 interactive items.
- * Each is a rose or gift box that opens a full-screen overlay.
- */
 
 interface GridItem {
   id: string
+  path: string
   label: string
   subtitle: string
   type: 'rose' | 'gift'
   emoji: string
   color: string
-  scene: React.ComponentType
 }
 
 const gridItems: GridItem[] = [
   {
     id: 'story',
+    path: '/story/our-story',
     label: 'Our Story',
     subtitle: 'School to forever',
     type: 'rose',
     emoji: '🏫',
     color: 'from-rose-900/40 to-pink-900/30',
-    scene: StoryScene,
   },
   {
     id: 'reasons',
+    path: '/story/reasons',
     label: 'Why I Love You',
     subtitle: '12 reasons, 12 years',
     type: 'rose',
     emoji: '❤️',
     color: 'from-red-900/40 to-rose-900/30',
-    scene: ReasonsScene,
   },
   {
     id: 'memories',
+    path: '/story/memories',
     label: 'Our Memories',
     subtitle: 'A journey in photos',
     type: 'gift',
     emoji: '📸',
     color: 'from-purple-900/40 to-pink-900/30',
-    scene: MemoriesScene,
   },
   {
     id: 'moments',
+    path: '/story/moments',
     label: 'Our Journey',
     subtitle: 'Every chapter of us',
     type: 'rose',
     emoji: '✨',
     color: 'from-amber-900/40 to-orange-900/30',
-    scene: MomentsScene,
   },
   {
     id: 'quiz',
+    path: '/story/quiz',
     label: 'Know Me?',
     subtitle: 'After 12 years...',
     type: 'gift',
     emoji: '🎮',
     color: 'from-indigo-900/40 to-purple-900/30',
-    scene: QuizScene,
   },
   {
     id: 'promises',
+    path: '/story/promises',
     label: 'My Promises',
     subtitle: 'For everything you endured',
     type: 'rose',
     emoji: '💍',
     color: 'from-yellow-900/30 to-amber-900/30',
-    scene: PromisesScene,
   },
   {
     id: 'letter',
+    path: '/story/letter',
     label: 'A Letter For You',
     subtitle: '12 years in words',
     type: 'gift',
     emoji: '💌',
     color: 'from-pink-900/40 to-rose-900/30',
-    scene: LetterScene,
   },
   {
     id: 'videos',
+    path: '/story/videos',
     label: 'Our Reels',
     subtitle: 'Love in motion',
     type: 'gift',
     emoji: '🎬',
     color: 'from-violet-900/40 to-purple-900/30',
-    scene: VideoScene,
   },
   {
     id: 'forever',
+    path: '/story/forever',
     label: '12 Years & Forever',
     subtitle: 'My final surprise',
     type: 'gift',
     emoji: '💖',
     color: 'from-rose-900/40 to-red-900/30',
-    scene: FinalScene,
   },
 ]
 
 export default function StoryPage() {
-  const [activeId, setActiveId] = useState<string | null>(null)
-  const activeItem = gridItems.find((item) => item.id === activeId)
-  const ActiveScene = activeItem?.scene ?? null
-
   const stars = useMemo(
     () =>
-      Array.from({ length: 40 }, (_, i) => ({
+      Array.from({ length: 12 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
@@ -145,12 +123,12 @@ export default function StoryPage() {
         {/* ── AMBIENT LAYERS ── */}
         <div className="fixed inset-0 pointer-events-none z-0">
           <motion.div
-            className="absolute top-1/4 left-1/3 w-[500px] h-[500px] rounded-full bg-romantic-pink/6 blur-[150px]"
+            className="absolute top-1/4 left-1/3 w-[300px] h-[300px] rounded-full bg-romantic-pink/6 blur-[60px]"
             animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15], x: [0, 30, 0] }}
             transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.div
-            className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-romantic-gold/5 blur-[120px]"
+            className="absolute bottom-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-romantic-gold/5 blur-[50px]"
             animate={{ scale: [1.1, 0.9, 1.1], opacity: [0.1, 0.25, 0.1] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
           />
@@ -201,12 +179,7 @@ export default function StoryPage() {
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pb-16 pt-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
             {gridItems.map((item, index) => (
-              <GridCard
-                key={item.id}
-                item={item}
-                index={index}
-                onOpen={() => setActiveId(item.id)}
-              />
+              <GridCard key={item.id} item={item} index={index} />
             ))}
           </div>
         </div>
@@ -227,29 +200,17 @@ export default function StoryPage() {
           </motion.span>
           <p className="font-poppins text-[10px] text-white/15 mt-2">Made with love, just for you</p>
         </motion.div>
-
-        {/* ── OVERLAY MODAL ── */}
-        <OverlayModal isOpen={!!activeId} onClose={() => setActiveId(null)}>
-          {ActiveScene && <ActiveScene />}
-        </OverlayModal>
       </div>
     </PageTransition>
   )
 }
 
-/** A single grid item — rose or gift box card */
-function GridCard({
-  item,
-  index,
-  onOpen,
-}: {
-  item: GridItem
-  index: number
-  onOpen: () => void
-}) {
+function GridCard({ item, index }: { item: GridItem; index: number }) {
+  const navigate = useNavigate()
+
   return (
     <motion.button
-      onClick={onOpen}
+      onClick={() => navigate(item.path)}
       className="group relative rounded-2xl p-4 md:p-5 text-center cursor-pointer overflow-hidden"
       style={{
         backdropFilter: 'blur(16px)',

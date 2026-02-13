@@ -38,15 +38,15 @@ export default function PromisesScene() {
       className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 relative overflow-hidden"
       style={{ background: 'radial-gradient(ellipse at center, #0f1520 0%, #0D1B2A 70%)' }}
     >
-      <FloatingHearts count={10} />
+      <FloatingHearts count={5} />
       {/* Ambient glows */}
       <motion.div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-romantic-gold/6 blur-[140px]"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full bg-romantic-gold/6 blur-[60px]"
         animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-romantic-pink/6 blur-[100px]"
+        className="absolute bottom-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-romantic-pink/6 blur-[50px]"
         animate={{ scale: [1.1, 0.9, 1.1] }}
         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
       />

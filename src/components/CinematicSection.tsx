@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useInView, useScroll, useTransform } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 
 interface CinematicSectionProps {
   children: React.ReactNode
@@ -19,13 +19,6 @@ export default function CinematicSection({
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-12% 0px -12% 0px' })
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [10, -10])
-
-  // GPU-friendly: only opacity + transform, NO filter blur
   const initial = {
     opacity: 0,
     ...(direction === 'up' && { y: 50 }),
@@ -44,7 +37,6 @@ export default function CinematicSection({
       initial={initial}
       animate={animate}
       transition={{ duration: 0.7, delay, ease: EASE }}
-      style={{ y: parallaxY }}
       className={className}
     >
       {children}

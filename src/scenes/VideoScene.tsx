@@ -40,25 +40,55 @@ const videos = [
   },
 ]
 
+const PASSWORD = 'Feb142013'
+
 export default function VideoScene() {
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
+  const [unlocked, setUnlocked] = useState(false)
+  const [pendingVideoId, setPendingVideoId] = useState<string | null>(null)
+  const [pwValue, setPwValue] = useState('')
+  const [pwError, setPwError] = useState(false)
+  const [shake, setShake] = useState(false)
   const activeRotate = videos.find((v) => v.id === activeVideo)?.rotate ?? 0
+
+  const handleCardClick = (videoId: string) => {
+    if (unlocked) {
+      setActiveVideo(videoId)
+    } else {
+      setPendingVideoId(videoId)
+      setPwValue('')
+      setPwError(false)
+    }
+  }
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (pwValue === PASSWORD) {
+      setUnlocked(true)
+      setPendingVideoId(null)
+      setActiveVideo(pendingVideoId)
+    } else {
+      setPwError(true)
+      setShake(true)
+      setTimeout(() => setShake(false), 600)
+    }
+  }
 
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-16 relative overflow-hidden"
       style={{ background: 'radial-gradient(ellipse at center, #1a0a14 0%, #0D1B2A 70%)' }}
     >
-      <FloatingHearts count={10} />
+      <FloatingHearts count={5} />
 
       {/* Ambient glows */}
       <motion.div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-romantic-pink/8 blur-[140px]"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full bg-romantic-pink/8 blur-[60px]"
         animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] rounded-full bg-romantic-gold/6 blur-[100px]"
+        className="absolute bottom-1/4 right-1/4 w-[200px] h-[200px] rounded-full bg-romantic-gold/6 blur-[50px]"
         animate={{ scale: [1.1, 0.9, 1.1] }}
         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
       />
@@ -90,7 +120,7 @@ export default function VideoScene() {
         {videos.map((video, i) => (
           <motion.button
             key={video.id}
-            onClick={() => setActiveVideo(video.id)}
+            onClick={() => handleCardClick(video.id)}
             className="group relative rounded-2xl overflow-hidden cursor-pointer text-left"
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -167,6 +197,92 @@ export default function VideoScene() {
           </motion.button>
         ))}
       </div>
+
+      {/* Password overlay */}
+      <AnimatePresence>
+        {pendingVideoId && !unlocked && (
+          <motion.div
+            className="fixed inset-0 z-[200] flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.div
+              className="absolute inset-0 bg-black/90"
+              onClick={() => setPendingVideoId(null)}
+            />
+            <motion.button
+              onClick={() => setPendingVideoId(null)}
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-[210] w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white hover:bg-white/20 transition-colors cursor-pointer border border-white/10"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              ✕
+            </motion.button>
+            <motion.div
+              className="relative z-[205] w-[90vw] max-w-sm"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.4, ease: EASE }}
+            >
+              <div className="text-center">
+                <motion.div
+                  className="text-5xl mb-5"
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  🔒
+                </motion.div>
+                <h3 className="font-playfair text-xl md:text-2xl font-semibold text-white mb-2">
+                  Private <span className="text-romantic-gradient">videos</span>
+                </h3>
+                <p className="font-poppins text-white/40 text-xs mb-6">
+                  Enter the password to watch
+                </p>
+                <form onSubmit={handlePasswordSubmit} className="space-y-3">
+                  <motion.div
+                    animate={shake ? { x: [-12, 12, -8, 8, -4, 4, 0] } : {}}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <input
+                      type="password"
+                      value={pwValue}
+                      onChange={(e) => { setPwValue(e.target.value); setPwError(false) }}
+                      placeholder="Enter password..."
+                      className="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white font-poppins text-sm text-center placeholder-white/25 outline-none focus:border-romantic-pink/40 focus:bg-white/8 transition-all"
+                      autoFocus
+                    />
+                  </motion.div>
+                  {pwError && (
+                    <motion.p
+                      className="font-poppins text-red-400/80 text-xs"
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      Wrong password. Try again!
+                    </motion.p>
+                  )}
+                  <p className="font-poppins text-white/20 text-[10px]">
+                    Hint: When did we first meet? (MmmDDYYYY)
+                  </p>
+                  <motion.button
+                    type="submit"
+                    className="w-full py-3.5 rounded-xl bg-romantic-pink/15 border border-romantic-pink/30 text-white font-poppins text-sm font-medium cursor-pointer hover:bg-romantic-pink/25 hover:border-romantic-pink/50 transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Unlock & Play
+                  </motion.button>
+                </form>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Video player overlay */}
       <AnimatePresence>

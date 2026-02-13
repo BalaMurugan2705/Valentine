@@ -101,16 +101,16 @@ export default function LetterScene() {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 py-20 md:py-32 overflow-hidden"
     >
-      <FloatingHearts count={10} />
+      <FloatingHearts count={5} />
       {/* Ambient glows */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-romantic-gold/8 blur-[140px]"
+          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full bg-romantic-gold/8 blur-[60px]"
           animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-romantic-pink/8 blur-[100px]"
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-romantic-pink/8 blur-[50px]"
           animate={{ scale: [1.1, 0.9, 1.1], opacity: [0.15, 0.35, 0.15] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
         />

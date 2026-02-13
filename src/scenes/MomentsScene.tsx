@@ -82,10 +82,10 @@ export default function MomentsScene() {
       className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-16 relative overflow-hidden"
       style={{ background: 'radial-gradient(ellipse at center, #1a0a14 0%, #0D1B2A 70%)' }}
     >
-      <FloatingHearts count={10} />
+      <FloatingHearts count={5} />
       {/* Ambient glow */}
       <motion.div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-romantic-pink/6 blur-[150px]"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-romantic-pink/6 blur-[60px]"
         animate={{ scale: [1, 1.2, 1] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />

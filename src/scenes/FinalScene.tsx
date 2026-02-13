@@ -32,7 +32,7 @@ export default function FinalScene() {
   // Celebration particles
   const particles = useMemo(() => {
     const emojis = ['❤️', '💕', '💖', '✨', '💗', '🌸', '💝', '🤍', '⭐', '💫']
-    return Array.from({ length: 50 }, (_, i) => ({
+    return Array.from({ length: 15 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       size: Math.random() * 22 + 12,
@@ -46,7 +46,7 @@ export default function FinalScene() {
   // Confetti
   const confetti = useMemo(
     () =>
-      Array.from({ length: 60 }, (_, i) => ({
+      Array.from({ length: 20 }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         color: ['#FF4D6D', '#FF758F', '#D4A574', '#FFF0F3', '#FFB3C1', '#FFD700'][
@@ -61,14 +61,14 @@ export default function FinalScene() {
   )
 
   // Ring burst animations
-  const rings = [0, 0.4, 0.8, 1.2, 1.6]
+  const rings = [0, 0.6, 1.2]
 
   return (
     <section
       ref={ref}
       className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden"
     >
-      <FloatingHearts count={10} />
+      <FloatingHearts count={5} />
       {/* Celebration particles */}
       {isInView && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -111,18 +111,18 @@ export default function FinalScene() {
       {/* Aurora glows — dramatic */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-romantic-pink/10 blur-[180px]"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-romantic-pink/10 blur-[80px]"
           style={{ opacity: bgGlow }}
           animate={{ scale: [1, 1.5, 1] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute top-1/3 left-1/3 w-[500px] h-[500px] rounded-full bg-romantic-gold/8 blur-[140px]"
+          className="absolute top-1/3 left-1/3 w-[300px] h-[300px] rounded-full bg-romantic-gold/8 blur-[60px]"
           animate={{ scale: [1.2, 0.9, 1.2], opacity: [0.15, 0.35, 0.15], x: [0, 40, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
         />
         <motion.div
-          className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-romantic-pink/6 blur-[120px]"
+          className="absolute bottom-1/3 right-1/4 w-[250px] h-[250px] rounded-full bg-romantic-pink/6 blur-[50px]"
           animate={{ scale: [0.9, 1.3, 0.9], opacity: [0.1, 0.25, 0.1] }}
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
         />

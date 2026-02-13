@@ -1,5 +1,5 @@
 import { useRef, useMemo } from 'react'
-import { motion, useScroll, useTransform, useInView } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import StoryText from '../components/StoryText'
 import CinematicSection from '../components/CinematicSection'
 import FloatingHearts from '../components/FloatingHearts'
@@ -105,21 +105,13 @@ const timeline = [
 ]
 
 export default function StoryScene() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  })
-  const gradientOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.05, 0.15, 0.1, 0.2])
-
   return (
-    <section ref={containerRef} className="relative">
-      <FloatingHearts count={10} />
-      <motion.div
-        className="absolute inset-0 pointer-events-none z-0"
+    <section className="relative">
+      <FloatingHearts count={5} />
+      <div
+        className="absolute inset-0 pointer-events-none z-0 opacity-15"
         style={{
           background: 'radial-gradient(ellipse at 50% 40%, rgba(255,77,109,0.12) 0%, transparent 60%)',
-          opacity: gradientOpacity,
         }}
       />
 
@@ -148,13 +140,6 @@ export default function StoryScene() {
 function HeroIntro() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true })
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end start'],
-  })
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
-  const headingScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.9])
-  const headingY = useTransform(scrollYProgress, [0, 0.6], [0, -60])
 
   const sparkles = useMemo(
     () =>
@@ -171,7 +156,7 @@ function HeroIntro() {
 
   return (
     <div ref={ref} className="min-h-screen flex flex-col items-center justify-center px-6 py-20 relative">
-      {/* Sparkles — reduced count */}
+      {/* Sparkles */}
       <div className="absolute inset-0 pointer-events-none">
         {sparkles.map((s) => (
           <motion.div
@@ -184,7 +169,7 @@ function HeroIntro() {
         ))}
       </div>
 
-      {/* Floating school icons — simple y float only */}
+      {/* Floating school icons */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {['📚', '✏️', '🎒', '💕'].map((emoji, i) => (
           <motion.div
@@ -205,7 +190,9 @@ function HeroIntro() {
 
       <motion.div
         className="text-center max-w-3xl mx-auto relative z-10"
-        style={{ opacity: headingOpacity, scale: headingScale, y: headingY }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, ease: EASE }}
       >
         <motion.div className="overflow-hidden mb-6">
           <motion.p
@@ -368,7 +355,6 @@ function StoryBlock({
   image,
   imagePosition,
   index,
-  isLast,
 }: {
   block: (typeof storyBlocks)[0]
   image: string
@@ -377,19 +363,16 @@ function StoryBlock({
   isLast: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-  const blockOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, isLast ? 1 : 0.3])
-  const blockScale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.97, 1, 1, 0.99])
+  const isInView = useInView(ref, { once: true, margin: '-10% 0px' })
   const isEven = index % 2 === 0
 
   return (
     <motion.div
       ref={ref}
       className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 md:py-24 relative"
-      style={{ opacity: blockOpacity, scale: blockScale }}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : {}}
+      transition={{ duration: 0.6, ease: EASE }}
     >
       {/* Floating emoji */}
       <motion.div
@@ -414,7 +397,7 @@ function StoryBlock({
           delay={0.25}
           direction={isEven ? 'right' : 'left'}
         >
-          <ParallaxImage src={image} alt={block.text} index={index} objectPosition={imagePosition} />
+          <StoryImage src={image} alt={block.text} objectPosition={imagePosition} />
         </CinematicSection>
       </div>
     </motion.div>
@@ -440,8 +423,8 @@ function ClosingSection() {
 
   return (
     <div ref={ref} className="relative px-6 py-24 md:py-36 overflow-hidden">
-      {/* Ambient glow — static, no animation */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-romantic-pink/8 blur-[160px] pointer-events-none opacity-20" />
+      {/* Ambient glow — static */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-romantic-pink/8 blur-[60px] pointer-events-none opacity-20" />
 
       {/* Sparkles — reduced count */}
       <div className="absolute inset-0 pointer-events-none">
@@ -645,23 +628,18 @@ function RomanticQuotes({ isInView }: { isInView: boolean }) {
   )
 }
 
-function ParallaxImage({ src, alt, index, objectPosition = 'center' }: { src: string; alt: string; index: number; objectPosition?: string }) {
+function StoryImage({ src, alt, objectPosition = 'center' }: { src: string; alt: string; objectPosition?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-10%' })
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-  const y = useTransform(scrollYProgress, [0, 1], [40, -40])
-  const imgY = useTransform(scrollYProgress, [0, 1], [15, -15])
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1.01, 0.95])
 
   return (
     <motion.div
       ref={ref}
       className="relative rounded-2xl overflow-hidden"
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: EASE }}
       style={{
-        y, scale,
         boxShadow: '0 20px 60px rgba(255,77,109,0.1), 0 8px 24px rgba(0,0,0,0.3)',
         border: '1px solid rgba(255,255,255,0.08)',
       }}
@@ -671,10 +649,10 @@ function ParallaxImage({ src, alt, index, objectPosition = 'center' }: { src: st
           src={src}
           alt={alt}
           className="w-full h-64 sm:h-80 md:h-[420px] object-cover"
-          style={{ y: imgY, objectPosition }}
-          initial={{ scale: 1.15, opacity: 0 }}
+          style={{ objectPosition }}
+          initial={{ scale: 1.1, opacity: 0 }}
           animate={isInView ? { scale: 1, opacity: 1 } : {}}
-          transition={{ duration: 0.8, ease: EASE }}
+          transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-romantic-dark/70 via-transparent to-romantic-dark/20" />

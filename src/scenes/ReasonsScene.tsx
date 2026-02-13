@@ -44,10 +44,10 @@ export default function ReasonsScene() {
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-16 relative overflow-hidden"
       style={{ background: 'radial-gradient(ellipse at center, #1a0a14 0%, #0D1B2A 70%)' }}
     >
-      <FloatingHearts count={10} />
+      <FloatingHearts count={5} />
       {/* Ambient glow */}
       <motion.div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-romantic-pink/8 blur-[140px]"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full bg-romantic-pink/8 blur-[60px]"
         animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
